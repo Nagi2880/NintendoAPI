@@ -1,0 +1,54 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+
+}
+
+enum ESRB {
+  E
+  E10_PLUS @map("E10+")
+  T
+  M
+  A
+  RP
+  RP17_PLUS @map("RP17+")
+}
+
+enum GameSizeUnit {
+  GB
+  MB
+  KB
+}
+
+model Videogame {
+  id                        Int      @id @default(autoincrement())
+  name                      String
+  description               String
+  price                     Float
+  releaseDate               DateTime
+  genre                     String
+  platform                  String
+  developer                 String
+  publisher                 String
+  rating                    Int
+  presentationImage         String
+  images                    String[]
+  videos                    String[]
+  demo                      Boolean @default(false)
+  hasPhysicalFormat         Boolean @default(false)
+  ESRB                      ESRB
+  numberOfPlayerSingle      Int
+  numberOfPlayerMultiplayer Int
+  numberOfPlayerLocal       Int
+  SupportedPlayModes        String[]
+  GameSizeUnit              GameSizeUnit @default(GB)
+  GameSize                  Decimal  @db.Decimal(10, 2)
+  SupportedLanguages        String[]
+  SupportedPlatforms        String[]
+}
