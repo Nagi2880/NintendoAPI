@@ -10,6 +10,7 @@ datasource db {
 
 }
 
+
 enum ESRB {
   E
   E10_PLUS @map("E10+")
@@ -30,9 +31,9 @@ model Videogame {
   id                        Int      @id @default(autoincrement())
   name                      String
   description               String
-  price                     Float
+  price                     Decimal  @db.Decimal(10, 2)
   releaseDate               DateTime
-  genre                     String
+  genre                     String[]
   platform                  String
   developer                 String
   publisher                 String
