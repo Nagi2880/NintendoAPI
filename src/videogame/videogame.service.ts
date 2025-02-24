@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVideogameDto } from './dto/create-videogame.dto';
 import { UpdateVideogameDto } from './dto/update-videogame.dto';
-import { PrismaService } from 'src/Prisma.Service';
+import { PrismaService } from 'src/Prisma.service';
 import { Decimal } from '@prisma/client/runtime/library';
 import { GameSizeUnit } from '@prisma/client';
 import { normalizeDecimal } from './utils/number.utils';
@@ -18,9 +18,9 @@ export class VideogameService {
     return this.prisma.videogame.create({
       data:{ 
         ...createVideogameDto,
-        GameSize: new Decimal(gameSize),
+        gameSize: new Decimal(gameSize),
         price: new Decimal(price),
-        GameSizeUnit: createVideogameDto.gameSizeUnit as GameSizeUnit,
+        gameSizeUnit: createVideogameDto.gameSizeUnit as GameSizeUnit,
       },
       select: videogameSelect,
     });

@@ -43,13 +43,13 @@ model Videogame {
   videos                    String[]
   demo                      Boolean @default(false)
   hasPhysicalFormat         Boolean @default(false)
-  ESRB                      ESRB
+  esrb                      ESRB
   numberOfPlayerSingle      Int
   numberOfPlayerMultiplayer Int
   numberOfPlayerLocal       Int
-  SupportedPlayModes        String[]
-  GameSizeUnit              GameSizeUnit @default(GB)
-  GameSize                  Decimal  @db.Decimal(10, 2)
-  SupportedLanguages        String[]
-  SupportedPlatforms        String[]
+  supportedPlayModes        String[]
+  gameSizeUnit              GameSizeUnit @default(GB)
+  gameSize                  Decimal  @db.Decimal(10, 2)
+  supportedLanguages        String[]
+  supportedPlatforms        String[]
 }

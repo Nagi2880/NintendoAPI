@@ -46,7 +46,7 @@ export class CreateVideogameDto {
     hasPhysicalFormat: boolean;
     
     @IsEnum(ESRB)
-    ESRB: ESRB;
+    esrb: ESRB;
     
     @IsNumber()
     numberOfPlayerSingle: number;

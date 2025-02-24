@@ -8,9 +8,22 @@ export class VideogameController {
   constructor(private readonly videogameService: VideogameService) {}
 
   @Post('/createvideogame')
-  create(@Body() createVideogameDto: CreateVideogameDto) {
-    return this.videogameService.create(createVideogameDto);
+  async create(@Body() createVideogameDto: CreateVideogameDto) {    
+    try{
+    const NewVideogame = await this.videogameService.create(createVideogameDto);
+    return{
+      success: true,
+      message: 'Videogame created successfully',
+      data: NewVideogame
+    }
+    }catch(error){
+      return {
+        success: false,
+        message: 'Error creating videogame',
+        error: error.message
+    };
   }
+}
 
   @Get('/getallvideogames')
   findAll() {
