@@ -26,22 +26,36 @@ export class VideogameController {
 }
 
   @Get('/getallvideogames')
-  findAll() {
-    return this.videogameService.findAll();
+  async findAll() {
+    try{
+      const AllVideogames = await this.videogameService.findAll();
+      
+      return{
+        success: true,
+        message: 'All videogames fetched successfully',
+        data: AllVideogames
+      }
+    }catch(error){
+      return {
+        success: false,
+        message: 'Error fetching all videogames',
+        error: error.message
+      };
+    }
   }
 
   @Get('/getvideogamebyid/:id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.videogameService.findOne(+id);
   }
 
   @Patch('/updatevideogame/:id')
-  update(@Param('id') id: string, @Body() updateVideogameDto: UpdateVideogameDto) {
+  async update(@Param('id') id: string, @Body() updateVideogameDto: UpdateVideogameDto) {
     return this.videogameService.update(+id, updateVideogameDto);
   }
 
   @Delete('/deletevideogame/:id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.videogameService.remove(+id);
   }
 }

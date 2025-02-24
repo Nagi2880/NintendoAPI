@@ -27,8 +27,15 @@ export class VideogameService {
 
   }
 
-  findAll() {
-    return `This action returns all videogame`;
+  async findAll() {
+    try{
+      return await this.prisma.videogame.findMany({
+        select: videogameSelect,
+      });
+    }
+    catch(error){
+      throw new Error('Error fetching all videogames ' + error.message);
+    }
   }
 
   findOne(id: number) {
