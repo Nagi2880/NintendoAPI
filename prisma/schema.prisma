@@ -28,7 +28,7 @@ enum GameSizeUnit {
 }
 
 model Videogame {
-  id                        Int      @id @default(autoincrement())
+  id                        String      @id @default(uuid())
   name                      String
   description               String
   price                     Decimal  @db.Decimal(10, 2)

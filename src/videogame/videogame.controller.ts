@@ -46,7 +46,7 @@ export class VideogameController {
 
   @Get('/getvideogamebyid/:id')
   async findOne(@Param('id') id: string) {
-    return this.videogameService.findOne(+id);
+    return this.videogameService.findById(id);
   }
 
   @Patch('/updatevideogame/:id')
