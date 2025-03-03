@@ -38,24 +38,67 @@ export class VideogameController {
     }catch(error){
       return {
         success: false,
-        message: 'Error fetching all videogames',
+        message: 'Could not find any videogame',
         error: error.message
       };
     }
   }
 
   @Get('/getvideogamebyid/:id')
-  async findOne(@Param('id') id: string) {
-    return this.videogameService.findById(id);
+  async findOneById(@Param('id') id: string) {
+    try{
+      const videogame = await this.videogameService.findById(id)
+      return{
+        success: true,
+        message: 'The videogame was finded successfully',
+        data: videogame
+      };   
+    }
+    catch(error){
+      return{
+        success: false,
+        message: 'Could not find the request videogame',
+        error: error.message
+      }
+    }
   }
+  
 
   @Patch('/updatevideogame/:id')
-  async update(@Param('id') id: string, @Body() updateVideogameDto: UpdateVideogameDto) {
-    return this.videogameService.update(+id, updateVideogameDto);
+  async updateVideogame(@Param('id') id: string, @Body() updateVideogameDto: UpdateVideogameDto) {
+    try{
+      const updatedVideogame = await this.videogameService.updateVideogame(id, updateVideogameDto)
+      return{
+        success: true,
+        message: 'the videogame was updated succesfully',
+        data: updatedVideogame
+      }
+    }
+    catch(error){
+      return{
+        success: false,
+        message: 'An error has ocurred trying to update the videogame',
+        error: error.message,
+      };
+    }
   }
 
   @Delete('/deletevideogame/:id')
   async remove(@Param('id') id: string) {
-    return this.videogameService.remove(+id);
+    try{
+      const removedVideogame = await this.videogameService.remove(id);
+      return{
+        success: true,
+        message: "The videogame with id"+ id + "was deleted successfully",
+        data: removedVideogame
+      }
+    }
+    catch(error){
+      return{
+        success: false,
+        message: 'An error has ocurred trying to delete the videogame with id' + id,
+        error: error.message
+      }
+    }
   }
 }

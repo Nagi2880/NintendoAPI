@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { All, Injectable } from '@nestjs/common';
 import { CreateVideogameDto } from './dto/create-videogame.dto';
 import { UpdateVideogameDto } from './dto/update-videogame.dto';
 import { PrismaService } from 'src/Prisma.service';
@@ -35,8 +35,12 @@ export class VideogameService {
 
   async findAll() {
     try{
-      return await this.prisma.videogame.findMany({
+      const allVideogames = this.prisma.videogame.findMany({
         select: videogameSelect,
+      });
+      return allVideogames ? allVideogames: Promise.reject({
+        message: 'There are no videogames in the database',
+        statusCode: 404,
       });
     }
     catch(error){
@@ -47,23 +51,43 @@ export class VideogameService {
   // Find a videogame by id	
   async findById( id: string ) {
     try{
-      return await this.prisma.videogame.findUnique({
-        where: {
-          id: id
-        },
+      const videogame =  await this.prisma.videogame.findUnique({
+        where: { id },
         select: videogameSelect,
       })
+
+      return videogame ? videogame: Promise.reject({
+        message: `The videogame with id ${id} was not found`,
+        statusCode: 404,
+      });
     }
     catch(error){
-      throw new Error('Error, the videogame with id ' + id + ' was not found or there was an error fetching it ' + error.message);
+      throw new Error(  `Unexpected error: ${error.message}`);
     }
   }
 
-  update(id: number, updateVideogameDto: UpdateVideogameDto) {
-    return `This action updates a #${id} videogame`;
+  async updateVideogame(id: string, updateVideogameDto: UpdateVideogameDto) {
+    try{
+      const updatedVideogame = await this.prisma.videogame.update({
+        where: {
+          id: id,
+        },
+        data:{
+          ...updateVideogameDto,
+        },
+      });
+      return updatedVideogame
+    }
+    catch (error){
+      throw new Error(`Error, the video game with id ${id} was not found or there was an error with the type of any data` + error.message)
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} videogame`;
+  remove(id: string) {
+    return this.prisma.videogame.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }
